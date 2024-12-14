@@ -336,15 +336,32 @@
     text-decoration: none; /* No underline */
     cursor: pointer; /* Pointer cursor */
 }
+.menu-content a {
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove underline */
+    display: block; /* Make links block elements */
+    padding: 10px; /* Add padding for better click area */
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.menu-content a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Light background on hover */
+}
 
     </style>
 </head>
 <body>
+  
 
     <div class="menu-content" id="menuContent">
-        <a href="#instructions" onclick="showInstructions()">Instructions</a>
+        <a href="#instructions" onclick="showInstructions()">Instructions For PC</a>
         <a href="#" onclick="toggleDayNight()">Toggle Day/Night</a>
-        <a href="#" onclick="toggleGameMakerInfo()">Game Maker Info</a>
+        <a href="#" onclick="toggleGameMakerInfo()">Game Info</a>
+        <a href="#" onclick="toggleClouds()">Toggle Clouds</a>
+        <a href="https://www.instagram.com/?utm_source=pwa_homescreen&__pwa=1" target="_blank">Instagram</a>
+        <a href="https://wa.link/j3vnzc" target="_blank">WhatsApp</a>
+        <a href="#" onclick="shareGame()">Share Game</a>  
+        <button id="toggleMusicButton" onclick="toggleMusic()">Toggle Music</button>
     </div>
     
     <div id="gameMakerInfo" class="modal" style="display: none;">
@@ -352,13 +369,26 @@
             <span class="close" onclick="toggleGameMakerInfo()">&times;</span>
             <h2>Information</h2>
             <p>Step:1 Select the difficulty which u want and click "Start Game" now you'r game start.
-               Step:2 In game finde the Dinosaur in square box to click u have difficulty acoding chance to finde Dinosaur.
-
-               now u enjoy you'r game..
+               <br>
+              <br> Step:2 In game finde the Dinosaur in square box to click u have difficulty acoding chance to finde Dinosaur.
+             <br>
+               <br>step:3 In game u don't like the cloud to use a "Toggle cloud" to remove.
+<br>
+              <br> now u enjoy you'r game..
             </p>
         </div>
     </div>
 
+    <body>
+        <audio id="backgroundMusic" loop>
+            <source src="flower.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    
+        <button id="toggleMusicButton" onclick="toggleMusic()">Toggle Music</button>
+        
+        <!-- Other existing HTML content... -->
+    </body>
     
     <div class="menu" onclick="toggleMenu()">
         <div></div>
@@ -407,9 +437,10 @@
     <div class="cloud" style="top: 500px; left: 60%; width: 80px; height: 50px;"></div>
     <div class="cloud" style="top: 600px; left: 60%; width: 80px; height: 50px;"></div>
 
+    
+
     <script>
         let dinosaurIndex;
-        let level;
         let chances;
         let initialBoxes = 9;  
         let isNight = false; // Track if it's night
@@ -679,7 +710,44 @@
     }
 }
 
+
+let cloudsVisible = true; // Track the visibility of clouds
+
+function toggleClouds() {
+    const clouds = document.querySelectorAll('.cloud');
+    cloudsVisible = !cloudsVisible; // Toggle the visibility state
+
+    clouds.forEach(cloud => {
+        cloud.style.display = cloudsVisible ? 'block' : 'none'; // Show or hide clouds
+    });
+
+    const messageBox = document.getElementById('messageBox');
+    messageBox.innerText = cloudsVisible ? '☁️ Clouds are now visible!' : '☁️ Clouds are now hidden!';
+    messageBox.style.opacity = 1; // Show message box
+    setTimeout(() => { messageBox.style.opacity = 0; }, 3000); // Fade out after 3 seconds
+}
+function shareGame() {
+    const gameLink = window.location.href; // Get the current URL of the game
+    navigator.clipboard.writeText(gameLink) // Copy the link to the clipboard
+        .then(() => {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.innerText = '🔗 Game link copied to clipboard! Share it with your friends!';
+            messageBox.style.opacity = 1; // Show message box
+            setTimeout(() => { messageBox.style.opacity = 0; }, 3000); // Fade out after 3 seconds
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+}
+function toggleMusic() {
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    if (backgroundMusic.paused) {
+        backgroundMusic.play();
+    } else {
+        backgroundMusic.pause();
+    }
+}
     </script>
-    
+ 
 </body>
 </html>
