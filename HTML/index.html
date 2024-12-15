@@ -3,7 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find the Dinosaur Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>Find The Dinosaur</title>
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="dinosaur"></div>
+        <p>Loading...🦖</p>
+    </div>
+
+    <script>
+        // Simulate loading time
+        setTimeout(function() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        }, 5000); // 5 seconds
+    </script>
+
+    <style>
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #87CEEB; /* Sky blue background */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(251, 246, 246, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it is on top of other content */
+}
+
+.dinosaur {
+    width: 100px;
+    height: 100px;
+    background-image: url('🦖'); /* Replace with your dinosaur image URL */
+    background-size: cover;
+    position: relative;
+    animation: run 1s steps(8) infinite; /* Adjust steps based on your sprite sheet */
+}
+
+@keyframes run {
+    0% { background-position: 0; }
+    100% { background-position: -800px; } /* Adjust based on the width of your sprite sheet */
+}
+
+p {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #333;
+}
+    </style>
+</body>
+</html>
    
     <style>
         body {
@@ -177,19 +237,40 @@
         }
 
         /* Cloud styles */
-        .cloud {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: moveClouds 30s linear infinite; /* Move clouds */
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
         @keyframes moveClouds {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8); /* White color with some transparency */
+    border-radius: 50%; /* Make it circular */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Soft shadow for depth */
+}
+
+/* Additional styles for cloud shapes */
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+}
+
+.cloud::before {
+    width: 60px; /* Width of the left puff */
+    height: 60px; /* Height of the left puff */
+    left: -30px; /* Position to the left */
+    top: 10px; /* Position vertically */
+}
+
+.cloud::after {
+    width: 60px; /* Width of the right puff */
+    height: 60px; /* Height of the right puff */
+    right: -30px; /* Position to the right */
+    top: 10px; /* Position vertically */
+}
 
         /* Sun styles */
         .sun {
@@ -245,27 +326,169 @@
             100% { opacity: 1; }
         }
 
-        /* Shooting star styles */
         .shooting-star {
-            position: absolute;
-            width:2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8 );
-            animation: shoot 1s forwards;
-        }
+    position: absolute;
+    width: 10px; /* Adjusted width */
+    height: 10px; /* Adjusted height */
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    animation: shoot 3s forwards; /* Increased duration to 3 seconds */
+}
 
-        @keyframes shoot {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100vw);
-                opacity: 0;
-            }
-        }
+@keyframes shoot {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) translateX(100vw); /* Move downwards */
+        opacity: 0;
+    }
+}
+
+.comet {
+    position: absolute;
+    width: 30px; /* Increased width for the comet head */
+    height: 30px; /* Increased height for the comet head */
+    background: white; /* Color of the comet head */
+    border-radius: 50%; /* Make it circular */
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); /* Glow effect for the head */
+    animation: cometAnimation 30s forwards; /* Animation for the comet */
+}
+
+/* Pseudo-element for the comet tail */
+.comet::after {
+    content: '';
+    position: absolute;
+    width: 150px; /* Increased length of the tail */
+    height: 10px; /* Increased thickness of the tail */
+    background: rgba(255, 255, 255, 0.5); /* Color of the tail */
+    border-radius: 5px; /* Rounded tail */
+    left: 50%; /* Center the tail */
+    top: 50%; /* Center the tail */
+    transform: translate(-50%, -50%) rotate(45deg); /* Position and rotate the tail */
+    animation: tailAnimation 30s forwards; /* Tail animation */
+}
+
+/* Keyframes for comet animation */
+@keyframes cometAnimation {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) translateX(100vw); /* Move downwards and to the right */
+        opacity: 0; /* Fade out */
+    }
+}
+
+/* Keyframes for tail animation */
+@keyframes tailAnimation {
+    0% {
+        width: 150px; /* Start with full tail length */
+        opacity: 1; /* Fully visible */
+    }
+    100% {
+        width: 0; /* Tail disappears */
+        opacity: 0; /* Fade out */
+    }
+}
+
+
+.satellite {
+    position: absolute;
+    width: 20px; /* Width of the satellite */
+    height: 20px; /* Height of the satellite */
+    background: gray; /* Color of the satellite */
+    border-radius: 5px; /* Slightly rounded corners for a more realistic shape */
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.8); /* Glow effect */
+    animation: satelliteAnimation 35s forwards; /* Animation for the satellite */
+}
+
+/* Pseudo-element for the satellite tail */
+.satellite::after {
+    content: '';
+    position: absolute;
+    width: 100px; /* Length of the tail */
+    height: 5px; /* Thickness of the tail */
+    background: rgba(255, 255, 0, 0.5); /* Color of the tail */
+    border-radius: 5px; /* Rounded tail */
+    left: 50%; /* Center the tail */
+    top: 50%; /* Center the tail */
+    transform: translate(-50%, -50%) rotate(45deg); /* Position and rotate the tail */
+    animation: tailAnimation 35s forwards; /* Tail animation */
+}
+
+
+.rocket {
+    position: absolute;
+    width: 40px; /* Width of the rocket */
+    height: 80px; /* Height of the rocket */
+    background: red; /* Rocket color */
+    border-radius: 10px; /* Rounded corners for the rocket */
+    left: 50%; /* Center horizontally */
+    bottom: 0; /* Start from the bottom */
+    transform: translateX(-50%); /* Center the rocket */
+    animation: launch 5s forwards; /* Launch animation */
+}
+
+.rocket::before {
+    content: '';
+    position: absolute;
+    width: 0; /* No width for the tail */
+    height: 0; /* No height for the tail */
+    border-left: 10px solid transparent; /* Left side of the tail */
+    border-right: 10px solid transparent; /* Right side of the tail */
+    border-top: 30px solid yellow; /* Tail color */
+    left: 50%; /* Center the tail */
+    transform: translateX(-50%); /* Center the tail */
+    animation: tailAnimation 5s forwards; /* Tail animation */
+}
+
+@keyframes launch {
+    0% {
+        bottom: 0; /* Start from the bottom */
+    }
+    100% {
+        bottom: 100vh; /* Move to the top of the viewport */
+    }
+}
+
+@keyframes tailAnimation {
+    0% {
+        border-top-width: 30px; /* Start with full tail */
+        opacity: 1; /* Fully visible */
+    }
+    100% {
+        border-top-width: 0; /* Tail disappears */
+        opacity: 0; /* Fade out */
+    }
+}
+
+/* Keyframes for satellite animation */
+@keyframes satelliteAnimation {
+    0% {
+        transform: translate(-50%, -50%) translateY(0); /* Start position */
+        opacity: 1; /* Fully visible */
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(-100vh); /* Move upwards */
+        opacity: 0; /* Fade out */
+    }
+}
+
+/* Keyframes for tail animation */
+@keyframes tailAnimation {
+    0% {
+        width: 100px; /* Start with full tail length */
+        opacity: 1; /* Fully visible */
+    }
+    100% {
+        width: 0; /* Tail disappears */
+        opacity: 0; /* Fade out */
+    }
+}
 
         /* Menu styles */
         .menu {
@@ -296,7 +519,7 @@
             position: absolute;
             top: 40px;
             left: 0;
-            background-color: rgba(22, 149, 234, 0.9);
+            background-color: rgba(112, 163, 215, 0.9);
             border-radius: 5px;
             padding: 10px;
             z-index: 1000;
@@ -354,12 +577,12 @@
   
 
     <div class="menu-content" id="menuContent">
-        <a href="#instructions" onclick="showInstructions()">Instructions For PC</a>
         <a href="#" onclick="toggleDayNight()">Toggle Day/Night</a>
-        <a href="#" onclick="toggleGameMakerInfo()">Game Info</a>
         <a href="#" onclick="toggleClouds()">Toggle Clouds</a>
-        <a href="#" onclick="shareGame()">Share Game</a>  
         <a href="#"onclick="toggleMusic()">Toggle Music🎶</a>
+        <a href="#" onclick="shareGame()">Share Game</a>  
+        <a href="#" onclick="toggleGameMakerInfo()">Game Info</a>
+        <a href="#instructions" onclick="showInstructions()">Instructions For PC</a>
         <a href="https://www.instagram.com/?utm_source=pwa_homescreen&__pwa=1" target="_blank">Instagram</a>
         <a href="https://wa.link/j3vnzc" target="_blank">WhatsApp</a>
     </div>
@@ -684,31 +907,47 @@
             document.querySelector('.difficulty-buttons').style.display = 'block'; // Show difficulty buttons again
         }
 
-        // Function to create and animate clouds
         function createMovingClouds() {
-            for (let i = 1; i < 5; i++) {  
-                const cloud = document.createElement('div');
-                cloud.className = 'cloud';
-                cloud.style.top = Math.random() * 100 + 'vh';  
-                cloud.style.left = Math.random() * 100 + 'vw';  
-                document.body.appendChild(cloud);
-            }
-        }
+    const cloudImages = [
+        'path/to/cloud1.png',
+        'path/to/cloud2.png',
+        'path/to/cloud3.png'
+    ];
 
-        createMovingClouds();
-
-        function toggleGameMakerInfo() {
-    const infoDiv = document.getElementById('gameMakerInfo');
-    const body = document.body;
-
-    if (infoDiv.style.display === 'none' || infoDiv.style.display === '') {
-        infoDiv.style.display = 'flex'; // Use flex to center the modal
-        body.classList.add('blur'); // Add blur class to the body
-    } else {
-        infoDiv.style.display = 'none';
-        body.classList.remove('blur'); // Remove blur class from the body
+    for (let i = 0; i < 5; i++) {  // Create 5 clouds
+        const cloud = document.createElement('div');
+        cloud.className = 'cloud';
+        cloud.style.backgroundImage = `url('${cloudImages[Math.floor(Math.random() * cloudImages.length)]}')`; // Random cloud image
+        cloud.style.width = Math.random() * 150 + 100 + 'px'; // Random width between 100px and 250px
+        cloud.style.height = 'auto'; // Maintain aspect ratio
+        cloud.style.top = Math.random() * 100 + 'vh';  // Random vertical position
+        cloud.style.left = '-150px';  // Start off-screen to the left
+        document.body.appendChild(cloud);
     }
 }
+
+// Call createMovingClouds to create clouds when the game starts
+createMovingClouds();
+
+function animateCloud(cloud) {
+        let position = parseFloat(cloud.style.left);
+        const speed = 1 + Math.random() * 2; // Random speed for each cloud
+
+        function move() {
+            position += speed; // Move cloud to the right
+            cloud.style.left = `${position}px`;
+
+            // Reset position if it goes off-screen
+            if (position > bodyWidth) {
+                position = -cloudWidth; // Reset to the left side
+                cloud.style.top = `${Math.random() * (bodyHeight - cloudHeight)}px`; // Random vertical position
+            }
+
+            requestAnimationFrame(move); // Continue the animation
+        }
+
+        move(); // Start moving the cloud
+    }
 
 
 let cloudsVisible = true; // Track the visibility of clouds
@@ -747,6 +986,45 @@ function toggleMusic() {
         backgroundMusic.pause();
     }
 }
+
+function createComet() {
+    const comet = document.createElement('div');
+    comet.className = 'comet';
+    
+    // Set random starting position for the comet
+    comet.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+    comet.style.top = '0'; // Start from the top of the viewport
+
+    document.body.appendChild(comet);
+
+    // Remove the comet after the animation ends
+    comet.addEventListener('animationend', () => {
+        document.body.removeChild(comet);
+    });
+}
+
+// Call createComet every 30 seconds
+setInterval(createComet, 30000);
+
+function createSatellite() {
+    const satellite = document.createElement('div');
+    satellite.className = 'satellite';
+    
+    // Position the satellite in the middle of the screen
+    satellite.style.left = '50%'; // Center horizontally
+    satellite.style.top = '50%'; // Center vertically
+
+    document.body.appendChild(satellite);
+
+    // Remove the satellite after the animation ends
+    satellite.addEventListener('animationend', () => {
+        document.body.removeChild(satellite);
+    });
+}
+
+// Call createSatellite every 30 seconds
+setInterval(createSatellite, 30000);
+
     </script>
  
 </body>
